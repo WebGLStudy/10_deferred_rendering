@@ -153,9 +153,78 @@
 
         ////////////////////////////
         // モデルの構築
-        vao_floor = createFloor(gl, prg_gbuffer.prg);// 平面
-        vao_box1 = createBox1(gl, prg_gbuffer.prg);
-        vao_box2 = createBox2(gl, prg_gbuffer.prg);
+        // 床
+        var vertex_data_floor = [
+         // x     y     z      R    G    B   normal
+          +5.0, -1.0, +5.0,   0.5, 0.5, 0.5, 0,1,0,
+          +5.0, -1.0, -5.0,   0.5, 0.5, 0.5, 0,1,0,
+          -5.0, -1.0, +5.0,   0.5, 0.5, 0.5, 0,1,0,
+          -5.0, -1.0, -5.0,   0.5, 0.5, 0.5, 0,1,0,
+        ];
+        var index_data_floor = [
+          0,  1,  2,   3,  2,  1,
+        ];
+        vao_floor = createMesh(gl, prg_gbuffer.prg, vertex_data_floor, index_data_floor);
+
+        var vertex_data_box1 = [
+         // x     y     z     R   G   B     nx   ny   nz
+          -1.0, -1.0, -1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,// 面0
+          -1.0, -1.0, +1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,
+          -1.0, +1.0, -1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,
+          -1.0, +1.0, +1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,
+          -1.0, -1.0, -1.0,    0,1.0,  0,  0.0,-1.0, 0.0,// 面1
+          +1.0, -1.0, -1.0,    0,1.0,  0,  0.0,-1.0, 0.0,
+          -1.0, -1.0, +1.0,    0,1.0,  0,  0.0,-1.0, 0.0,
+          +1.0, -1.0, +1.0,    0,1.0,  0,  0.0,-1.0, 0.0,
+          -1.0, -1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,// 面2
+          -1.0, +1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,
+          +1.0, -1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,
+          +1.0, +1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,
+          +1.0, -1.0, -1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,// 面3
+          +1.0, +1.0, -1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,
+          +1.0, -1.0, +1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,
+          +1.0, +1.0, +1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,
+          -1.0, +1.0, -1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,// 面4
+          -1.0, +1.0, +1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,
+          +1.0, +1.0, -1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,
+          +1.0, +1.0, +1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,
+          -1.0, -1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,// 面5
+          +1.0, -1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,
+          -1.0, +1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,
+          +1.0, +1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,
+        ];
+        var index_data_box1 = [
+          0+0,  0+1,  0+2,   0+3,  0+2,  0+1, // 面0
+          4+0,  4+1,  4+2,   4+3,  4+2,  4+1, // 面1
+          8+0,  8+1,  8+2,   8+3,  8+2,  8+1, // 面2
+         12+0, 12+1, 12+2,  12+3, 12+2, 12+1, // 面3
+         16+0, 16+1, 16+2,  16+3, 16+2, 16+1, // 面4
+         20+0, 20+1, 20+2,  20+3, 20+2, 20+1, // 面5
+        ];
+        vao_box1 = createMesh(gl, prg_gbuffer.prg, vertex_data_box1, index_data_box1);
+        
+        var l = 1.0 / Math.sqrt(3.0);
+        var vertex_data_box2 = [
+         // x     y     z     R    G    B   nx  ny  nz
+          -1.0, -1.0, -1.0,  0.0, 0.0, 0.0, -l, -l, -l,
+          +1.0, -1.0, -1.0,  1.0, 0.0, 0.0, +l, -l, -l,
+          -1.0, +1.0, -1.0,  0.0, 1.0, 0.0, -l, +l, -l,
+          -1.0, -1.0, +1.0,  0.0, 0.0, 1.0, -l, -l, +l,
+          -1.0, +1.0, +1.0,  0.0, 1.0, 1.0, -l, +l, +l,
+          +1.0, -1.0, +1.0,  1.0, 0.0, 1.0, +l, -l, +l,
+          +1.0, +1.0, -1.0,  1.0, 1.0, 0.0, +l, +l, -l,
+          +1.0, +1.0, +1.0,  1.0, 1.0, 1.0, +l, +l, +l,
+        ];   
+        var index_data_box2 = [
+            3,4,0,2,0,4, // 面0
+            5,3,1,0,1,3, // 面1
+            2,6,0,1,0,6, // 面2
+            7,5,6,1,6,5, // 面3
+            4,7,2,6,2,7, // 面4
+            3,5,4,7,4,5, // 面5
+        ];
+        vao_box2 = createMesh(gl, prg_gbuffer.prg, vertex_data_box2, index_data_box2);
+
         vao_full_screen = createPlane(gl, prg_lighting.prg);
         vao_debug_plane = createDebugPlane(gl, prg_debug.prg);// デバッグ用
         
@@ -371,82 +440,12 @@
         return {f : frameBuffer, t : textures};
     }
     
-    // 床モデルの生成
-    function createFloor(gl, program) {
-        var vao = gl.createVertexArray();
-        gl.bindVertexArray(vao);
-
-        // 頂点バッファ
-        var vertex_data = new Float32Array([
-         // x     y     z      R    G    B   normal
-          +5.0, -1.0, +5.0,   0.5, 0.5, 0.5, 0,1,0,
-          +5.0, -1.0, -5.0,   0.5, 0.5, 0.5, 0,1,0,
-          -5.0, -1.0, +5.0,   0.5, 0.5, 0.5, 0,1,0,
-          -5.0, -1.0, -5.0,   0.5, 0.5, 0.5, 0,1,0,
-        ]);
-
-        const vertexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, vertex_data, gl.STATIC_DRAW);
-
-        var posAttr = gl.getAttribLocation(program, 'position');
-        gl.enableVertexAttribArray(posAttr);
-        gl.vertexAttribPointer(posAttr, 3, gl.FLOAT, false, 4*9, 0);
-
-        var colAttr = gl.getAttribLocation(program, 'color');
-        gl.enableVertexAttribArray(colAttr);
-        gl.vertexAttribPointer(colAttr, 3, gl.FLOAT, false, 4*9, 4*3);
-
-        var nrmAttr = gl.getAttribLocation(program, 'normal');
-        gl.enableVertexAttribArray(nrmAttr);
-        gl.vertexAttribPointer(nrmAttr, 3, gl.FLOAT, false, 4*9, 4*6);
-
-        // インデックスバッファ
-        var index_data = new Uint8Array([
-          0,  1,  2,   3,  2,  1,
-        ]);
-        var indexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index_data, gl.STATIC_DRAW);
-
-        gl.bindVertexArray(null);
-
-        return vao;
-    };
-
     // 箱モデルの生成
-    function createBox1(gl, program) {
+    function createMesh(gl, program, vertex_data, index_data) {
         var vao = gl.createVertexArray();
         gl.bindVertexArray(vao);
 
         // 頂点バッファ
-        var vertex_data = new Float32Array([
-         // x     y     z     R   G   B     nx   ny   nz
-          -1.0, -1.0, -1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,// 面0
-          -1.0, -1.0, +1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,
-          -1.0, +1.0, -1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,
-          -1.0, +1.0, +1.0,  1.0,  0,  0, -1.0, 0.0, 0.0,
-          -1.0, -1.0, -1.0,    0,1.0,  0,  0.0,-1.0, 0.0,// 面1
-          +1.0, -1.0, -1.0,    0,1.0,  0,  0.0,-1.0, 0.0,
-          -1.0, -1.0, +1.0,    0,1.0,  0,  0.0,-1.0, 0.0,
-          +1.0, -1.0, +1.0,    0,1.0,  0,  0.0,-1.0, 0.0,
-          -1.0, -1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,// 面2
-          -1.0, +1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,
-          +1.0, -1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,
-          +1.0, +1.0, -1.0,    0,  0,1.0,  0.0, 0.0,-1.0,
-          +1.0, -1.0, -1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,// 面3
-          +1.0, +1.0, -1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,
-          +1.0, -1.0, +1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,
-          +1.0, +1.0, +1.0,  0.0,1.0,1.0, +1.0, 0.0, 0.0,
-          -1.0, +1.0, -1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,// 面4
-          -1.0, +1.0, +1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,
-          +1.0, +1.0, -1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,
-          +1.0, +1.0, +1.0,  1.0,0.0,1.0,  0.0,+1.0, 0.0,
-          -1.0, -1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,// 面5
-          +1.0, -1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,
-          -1.0, +1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,
-          +1.0, +1.0, +1.0,  1.0,1.0,0.0,  0.0, 0.0,+1.0,
-        ]);   
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertex_data), gl.STATIC_DRAW);
@@ -464,70 +463,9 @@
         gl.vertexAttribPointer(nrmAttr, 3, gl.FLOAT, false, 4*9, 4*6);
 
         // インデックスバッファ
-        var index_data = new Uint8Array([
-          0+0,  0+1,  0+2,   0+3,  0+2,  0+1, // 面0
-          4+0,  4+1,  4+2,   4+3,  4+2,  4+1, // 面1
-          8+0,  8+1,  8+2,   8+3,  8+2,  8+1, // 面2
-         12+0, 12+1, 12+2,  12+3, 12+2, 12+1, // 面3
-         16+0, 16+1, 16+2,  16+3, 16+2, 16+1, // 面4
-         20+0, 20+1, 20+2,  20+3, 20+2, 20+1, // 面5
-        ]);
-        
         var indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index_data, gl.STATIC_DRAW);
-
-        gl.bindVertexArray(null);
-
-        return vao;
-    };
-    
-    // 箱モデルの生成
-    function createBox2(gl, program) {
-        var vao = gl.createVertexArray();
-        gl.bindVertexArray(vao);
-
-        var l = 1.0 / Math.sqrt(3.0);
-        // 頂点バッファ
-        var vertex_data = new Float32Array([
-         // x     y     z     R    G    B   nx  ny  nz
-          -1.0, -1.0, -1.0,  0.0, 0.0, 0.0, -l, -l, -l,
-          +1.0, -1.0, -1.0,  1.0, 0.0, 0.0, +l, -l, -l,
-          -1.0, +1.0, -1.0,  0.0, 1.0, 0.0, -l, +l, -l,
-          -1.0, -1.0, +1.0,  0.0, 0.0, 1.0, -l, -l, +l,
-          -1.0, +1.0, +1.0,  0.0, 1.0, 1.0, -l, +l, +l,
-          +1.0, -1.0, +1.0,  1.0, 0.0, 1.0, +l, -l, +l,
-          +1.0, +1.0, -1.0,  1.0, 1.0, 0.0, +l, +l, -l,
-          +1.0, +1.0, +1.0,  1.0, 1.0, 1.0, +l, +l, +l,
-        ]);   
-        const vertexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertex_data), gl.STATIC_DRAW);
-
-        var posAttr = gl.getAttribLocation(program, 'position');
-        gl.enableVertexAttribArray(posAttr);
-        gl.vertexAttribPointer(posAttr, 3, gl.FLOAT, false, 4*9, 4*0);
-
-        var colAttr = gl.getAttribLocation(program, 'color');
-        gl.enableVertexAttribArray(colAttr);
-        gl.vertexAttribPointer(colAttr, 3, gl.FLOAT, false, 4*9, 4*3);
-
-        var nrmAttr = gl.getAttribLocation(program, 'normal');
-        gl.enableVertexAttribArray(nrmAttr);
-        gl.vertexAttribPointer(nrmAttr, 3, gl.FLOAT, false, 4*9, 4*6);
-
-        // インデックスバッファ
-        var index_data = new Uint8Array([
-            3,4,0,2,0,4, // 面0
-            5,3,1,0,1,3, // 面1
-            2,6,0,1,0,6, // 面2
-            7,5,6,1,6,5, // 面3
-            4,7,2,6,2,7, // 面4
-            3,5,4,7,4,5, // 面5
-        ]);
-        var indexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index_data, gl.STATIC_DRAW);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(index_data), gl.STATIC_DRAW);
 
         gl.bindVertexArray(null);
 
@@ -565,6 +503,7 @@
 
         return vao;
     };
+    
     // デバッグ用平面モデルの生成
     function createDebugPlane(gl, program) {
         var vao = gl.createVertexArray();
