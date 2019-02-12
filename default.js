@@ -102,8 +102,8 @@
                 'float ln = max(dot(normal.xyz, light_dir), 0.0);',
                 'vec3 diffuse = color.rgb * (0.2 + ln * 0.6);',
 
-                'vec3 r = reflect(-view_dir, normal);',
-                'float specular = 0.8 * pow(max(dot(r,light_dir),0.0), 30.0);',
+                'vec3 r = reflect(-light_dir, normal);',
+                'float specular = 0.8 * pow(max(dot(r,view_dir),0.0), 30.0);',
 
                 'outColor = vec4(diffuse.rgb + specular, 1.0);',
             '}'
