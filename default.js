@@ -409,7 +409,7 @@
             gl.COLOR_ATTACHMENT0,
             gl.COLOR_ATTACHMENT1
         ];
-        gl.drawBuffers(bufferList)
+        gl.drawBuffers(bufferList);
         
         // 深度バッファ
         var depthBuffer = gl.createRenderbuffer();
