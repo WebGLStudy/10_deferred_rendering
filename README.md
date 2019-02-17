@@ -3,7 +3,7 @@
 
 https://webglstudy.github.io/10_deferred_rendering/
 
-result.gif
+![結果画像](result.gif)
 
 # 課題
 次の問題に挑戦してみてください。
