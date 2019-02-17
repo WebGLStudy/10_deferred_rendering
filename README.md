@@ -19,4 +19,3 @@ https://webglstudy.github.io/10_deferred_rendering/
 - GitHub Pages の機能を使って、ホームページを立ち上げます
 - 問題を解きます
 - GitHub Pages で正答したか確認しましょう
-
