@@ -1,6 +1,8 @@
 # ディファードレンダリング
 複数のテクスチャへ一度にレンダリングを行い、その結果を利用します。
 
+https://webglstudy.github.io/10_deferred_rendering/
+
 ![結果画像](result.gif)
 
 # 課題
